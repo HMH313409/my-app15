@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ar"dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدي زيارة عاشوراء</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Amiri', serif;
+            background-color: #f4efe6;
+            color: #2c3e50;
+            margin: 0;
+            padding: 15px 10px;
+            background-image: linear-gradient(135deg, #f9f6f0 25%, transparent 25%),
+                              linear-gradient(225deg, #f9f6f0 25%, transparent 25%),
+                              linear-gradient(45deg, #f9f6f0 25%, transparent 25%),
+                              linear-gradient(315deg, #f9f6f0 25%, #ede4d3 25%);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .watermark-container {
+            position: fixed;
+            top: 10px;
+            left: 15px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .watermark {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgba(128, 0, 32, 0.4);
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.5);
+            padding: 2px 8px;
+            border-radius: 5px;
+            pointer-events: auto;
+        }
+
+        .floating-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #800020;
+            margin-top: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .header {
+            text-align: center;
+            color: #800020;
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #d8c8b8;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #800020;
+            font-size: 1.1rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #800020;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1.1rem;
+            background: #fff;
+        }
+
+        button {
+            background-color: #800020;
+            color: white;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #5c0017;
+        }
+
+        .primary-action-btn {
+            background-color: #27ae60;
+            font-size: 1.2rem;
+            padding: 15px;
+        }
+        
+        .primary-action-btn:hover {
+            background-color: #219150;
+        }
+
+        .ziyarat-section {
+            margin-top: 20px;
+            border-top: 2px solid #800020;
+            padding-top: 15px;
+        }
+
+        .ziyarat-text {
+            line-height: 2.2;
+            font-size: 1.3rem;
+            text-align: justify;
+            background: #fdfaf6;
+            padding: 15px;
+            border-radius: 5px;
+            border-right: 4px solid #800020;
+            margin-bottom: 20px;
+            white-space: pre-line;
+            color: #1a252f;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .audio-player-box {
+            background: #fdfaf6;
+            border: 1px solid #d8c8b8;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .audio-player-box h3 {
+            margin-top: 0;
+            color: #800020;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #fff;
+            font-size: 1.1rem;
+        }
+
+        th, td {
+            border: 1px solid #d0c0b0;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #800020;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fcf8f3;
+        }
+
+        .server-control-section {
+            background: #fcf8f3;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px dashed #d8c8b8;
+            margin-top: 30px;
+        }
+
+        .control-block {
+            border-bottom: 1px solid #e2c0c0;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .badge {
+            background-color: #f1c40f;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .admin-action-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .points-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .suggestions-box {
+            background: #fdfaf6;
+            border: 1px solid #d8c8b8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #d8c8b8;
+            border-radius: 5px;
+            font-family: 'Amiri', serif;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+
+<div class="watermark-container">
+    <div class="watermark">HMH-313</div>
+    <img src="https://files.catbox.moe/i8v7m2.jpg" alt="رمزية" class="floating-avatar">
+</div>
+
+<div class="container">
+    <div class="header">
+        <h1>تحدي زيارة عاشوراء</h1>
+    </div>
+
+    <!-- تسجيل الاسم الثابت -->
+    <div id="user-setup" class="form-group" style="margin-top: 20px;">
+        <label for="username">اسم المشارك (ثابت):</label>
+        <input type="text" id="username" placeholder="أدخل اسمك الثلاثي">
+        <button id="start-btn" onclick="registerUser()">تسجيل الدخول وبدء الزيارة</button>
+    </div>
+
+    <!-- زر تسجيل الحضور اليومي -->
+    <div>
+        <button class="primary-action-btn" onclick="recordAttendance()">تـسـجـيـل الـحـضـور الـيـو مـي</button>
+    </div>
+
+    <!-- قسم الزيارة -->
+    <div id="ziyarat-section" class="ziyarat-section" style="display:none;">
+        <h2>نص الزيارة الشريفة</h2>
+        <div id="ziyarat-text" class="ziyarat-text"></div>
+
+        <!-- مشغل صوتي مباشر -->
+        <div class="audio-player-box">
+            <h3>الاستماع الصوتي للزيارة بصوت علي الفاني</h3>
+            <audio controls style="width: 100%; max-width: 400px;" id="audio-player">
+                <source src="https://www.shiasource.com/wp-content/uploads/2018/08/ali_fani_ziyaratashura.mp3" type="audio/mpeg">
+                متصفحك لا يدعم تشغيل الصوت.
+            </audio>
+        </div>
+
+        <!-- صندوق الاقتراحات والشكاوى -->
+        <div class="suggestions-box">
+            <h3 style="margin-top: 0; color: #800020;">صندوق الاقتراحات والشكاوى</h3>
+            <textarea id="suggestion-input" placeholder="اكتب اقتراحك أو شكواك هنا..."></textarea>
+            <button onclick="submitSuggestion()" style="background-color: #d35400; width: auto;">إرسال الاقتراح</button>
+            <div id="user-suggestions-display" style="margin-top: 15px; font-style: italic; color: #555; white-space: pre-line;"></div>
+        </div>
+    </div>
+
+    <!-- لوحة الصدارة -->
+    <div style="margin-top: 20px;">
+        <h2>لوحة الصدارة</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>المشارك</th>
+                    <th>النقاط</th>
+                    <th>الخصومات</th>
+                    <th>العضوية</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+        </table>
+    </div>
+
+    <!-- لوحة التحكم وإدارة المشرفين -->
+    <div class="server-control-section">
+        <h3 style="color: #444; margin-top: 0; text-align: center;">لوحة التحكم والإدارة</h3>
+        
+        <!-- التحقق من كود المشرف -->
+        <div class="control-block">
+            <div class="form-group">
+                <label for="admin-code">كود المشرف:</label>
+                <input type="text" id="admin-code" placeholder="أدخل كود المشرف للوصول للأدوات">
+            </div>
+            <button onclick="accessAdmin()" style="background-color: #555;">التحقق من الكود</button>
+        </div>
+        
+        <!-- قسم أدوات المشرف (تظهر بعد التحقق) -->
+        <div id="admin-tools" class="control-block" style="display:none; border-top: 1px dashed #800020; padding-top: 15px;">
+            <h4 style="color: #800020; margin-top: 0;">أدوات التحكم الخاصة بالمشرف</h4>
+            
+            <!-- قسم عرض الاقتراحات للمشرفين فقط -->
+            <div style="background: #fff; padding: 15px; border-radius: 5px; border: 1px solid #800020; margin-bottom: 20px;">
+                <h4 style="color: #800020; margin-top: 0;">طلبات وشكاوى الأعضاء</h4>
+                <div id="admin-suggestions-list"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="target-username">اسم المشارك المستهدف:</label>
+                <input type="text" id="target-username" placeholder="مثال: حسين">
+            </div>
+            
+            <!-- إدارة العضوية المتقدمة (قائمة منسدلة) -->
+            <div class="form-group">
+                <label for="role-select">تحديد مستوى العضوية:</label>
+                <select id="role-select">
+                    <option value="عضو عادي">عضو عادي</option>
+                    <option value="عضوية متوسطة">عضوية متوسطة</option>
+                    <option value="عضوية مميزة">عضوية مميزة</option>
+                    <option value="مشرف كامل">مشرف كامل</option>
+                </select>
+            </div>
+            <button onclick="updateMemberRole()" style="background-color: #f39c12; margin-top: 0;">تحديث مستوى العضوية</button>
+
+            <!-- تعديل النقاط يديوياً بدقة -->
+            <div style="margin-top: 20px; background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+                <h5 style="margin: 0 0 10px 0; color: #333;">إدارة النقاط والخصومات الدقيقة</h5>
+                
+                <div class="points-controls">
+                    <button onclick="adjustPointsAccurate(1)" style="background-color: #27ae60; margin-top: 0; flex: 1;">+ إضافة نقطة</button>
+                    <button onclick="adjustPointsAccurate(-1)" style="background-color: #c0392b; margin-top: 0; flex: 1;">- خصم نقطة</button>
+                </div>
+
+                <div class="points-controls">
+                    <button onclick="setPointsDirect()" style="background-color: #2980b9; margin-top: 0;">تعيين الرصيد مباشرة:</button>
+                    <input type="number" id="direct-points-input" placeholder="الرصيد الجديد" style="flex: 1; margin: 0;">
+                </div>
+            </div>
+            
+            <button onclick="banUser()" style="background-color: #34495e; margin-top: 20px;">حظر المستخدم ومنعه من العودة</button>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">* الحظر سيحذف المستخدم من اللوحة ويمنعه من الانضمام لهذا السيرفر مجدداً.</p>
+        </div>
+
+        <!-- نظام السيرفرات في الأسفل -->
+        <div class="control-block">
+            <h3 style="color: #444;">نظام السيرفرات والمجموعات</h3>
+            <div class="form-group">
+                <label for="server-selector">اختر السيرفر الحالي:</label>
+                <select id="server-selector" onchange="switchServerFromDropdown()"></select>
+            </div>
+            <div style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">
+                الكود الحالي: <span id="current-server-display" style="font-weight: bold; color: #800020;"></span>
+            </div>
+
+            <h4 style="color: #800020; margin-top: 0;">إعدادات السيرفر المتقدمة</h4>
+            
+            <!-- 1. إنشاء سيرفر (مشروط بالعضوية) -->
+            <div style="background: #fff; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #ccc;">
+                <h5 style="margin: 0 0 10px 0; color: #333;">1. إنشاء سيرفر جديد</h5>
+                <p style="font-size: 0.9rem; color: #666;">يتطلب رتبة 'عضوية متوسطة' أو أعلى.</p>
+                <div class="form-group">
+                    <input type="text" id="new-server-name" placeholder="اسم السيرفر الجديد">
+                </div>
+                <button id="create-server-btn" onclick="createNewServer()" style="background-color: #8e44ad;">إنشاء السيرفر</button>
+            </div>
+
+            <!-- 2. الانضمام لسيرفر -->
+            <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                <h5 style="margin: 0 0 10px 0; color: #333;">2. الانضمام إلى سيرفر</h5>
+                <div class="form-group">
+                    <input type="text" id="server-code-input" placeholder="أدخل كود السيرفر">
+                </div>
+                <button onclick="joinExistingServer()" style="background-color: #2980b9;">الانضمام للسيرفر</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ADMIN_PASS = "1433";
+    let currentUser = "";
+    let currentServerId = "server_HMH_313";
+
+    const fullZiyaratText = `اَلسَّلامُ عَلَيْكَ يا اَبا عَبْدِ اللهِ، اَلسَّلامُ عَلَيْكَ يا بْنَ رَسُولِ اللهِ، اَلسَّلامُ عَلَيْكَ يا بْنَ اَمِيرِ الْمُؤْمِنِينَ وَسَيِّدِ الْوَصِيِّينَ، اَلسَّلامُ عَلَيْكَ يا بْنَ فاطِمَةَ سَيِّدَةِ نِساءِ الْعالَمِينَ، اَلسَّلامُ عَلَيْكَ يا ثارَ اللهِ وَابْنَ ثارِهِ وَالْوِتْرَ الْمَوْتُورَ، اَلسَّلامُ عَلَيْكَ وَعَلَى الاَرْواحِ الَّتي حَلَّتْ بِفِنائِكَ عَلَيْكُمْ مِنّي جَميعاً سَلامُ اللهِ اَبَداً ما بَقيتُ وَبَقيَ اللَّيْلُ وَالنَّهارُ يا اَبا عَبْدِ اللهِ لَقَدْ عَظُمَتْ الرَّزِيَّةُ وَجَلَّتْ وَعَظُمَتْ المُصيبَةُ بِكَ عَلَيْنا وَعَلهى جَميعِ اَهْلِ السَّماواتِ وَالاَرْضِ فَلَعَنَ اللهُ اُمَّةً اَسَّسَتْ اَساسَ الظُّلْمِ وَالْجَوْرِ عَلَيْكُمْ اَهْلَ الْبَيْتِ وَلَعَنَ اللهُ اُمَّةً دَفَعَتْكُمْ عَنْ مَقامِكُمْ وَاَزالَتْكُمْ عَنْ مَراتِبِكُمُ الَّتي رَتَّبَكُمُ اللهُ فيها وَلَعَنَ اللهُ اُمَّةً قَتَلَتْكُمْ وَلَعَنَ اللهُ الْمُمَهِّدِينَ لَهُمْ بِالتَّمْكِينِ مِنْ قِتالِكُمْ بَرِئْتُ اِلَى اللهِ وَاِلَيْكُمْ مِنْهُمْ وَمِنْ اَشْياعِهِمْ وَاَتْباعِهِمْ وَاَوْلِيائِهِمْ، يا اَبا عَبْدِ اللهِ اِنّي سِلْمٌ لِمَنْ سالَمَكُمْ وَحَرْبٌ لِمَنْ حارَبَكُمْ اِلى يَوْمِ الْقِيامَةِ، وَلَعَنَ اللهُ آلَ زِيَاد وَآلَ مَرْوانَ، وَلَعَنَ اللهُ بَنِي اُمَّةً اَسْرَجَتْ وَاَلْجَمَتْ وَتَنَقَّبَتْ لِقِتالِكَ، بِاَبي اَنْتَ وَاُمّي لَقَدْ عَظُمَ مُصابي بِكَ فَاَسْئَلُ اللهَ بِالْشَّاْنِ الَّذي لَكُمْ عِنْدَهُ وَبِالْمَحَلِّ الَّذي لَكُمْ لَدَيْهِ اَنْ يُعْطِيَني بِمُصابي بِكُمْ اَفْضَلَ ما يُعْطي مُصاباً بِـمُصيبَتِهِ، مُصيبَةً ما اَعْظَمَها وَاَعْظَمَ رَزِيَّتَها فِي الاِسْلامِ وَفِي جَميعِ السَّماواتِ وَالاَرْضِ.
+
+اَللّـهُمَّ اجْعَلْني فِي مَقامي هذا مِمَّنْ تَنالُهُ مِنْكَ صَلَواتٌ وَرَحْمَةٌ وَمَغْفِرَةٌ، اَللّـهُمَّ اجْعَلْ مَحْياىَ مَحْيا مُحَمَّد وَآلِ مُحَمَّد وَمَماتي مَماتَ مُحَمَّد وَآلِ مُحَمَّد.
+
+اَللّـهُمَّ اِنَّ هذا يَوْمٌ تَبَارَكَتْ بِهِ بَنُو اُمَّةَ السُّوءِ وَابْنُ آكِلَةِ الاَكْبادِ، اَللّـهُمَّ الْعَنْ اَبا سُفْيانَ وَمُعاوِيَةَ وَيَزِيدَ بْنَ مُعاوِيَةَ عَلَيْهِمْ مِنْكَ اللَّعْنُ اَبَدَ الآبِدينَ، وَهذا يَوْمٌ فَرِحَتْ بِهِ آلُ زِيَاد وَآلَ مَرْوانَ بِقَتْلِهِمُ الْحُسِين صَلَواتُ اللهِ عَلَيْهِ.
+
+اَللّـهُمَّ فَضاعِفْ عَلَيْهِمُ اللَّعْنَ مِنْكَ وَالْعَذابَ الاَليمَ، اَللّـهُمَّ اِنّي اَتَقَرَّبُ اِلَى اللهِ فِي هذَا الْيَوْمِ وَفِي مَوْقِفي هذا وَاَيّامِ حَياتي بِالْبَراءَةِ مِنْهُمْ وَاللَّعْنَةِ عَلَيْهِمْ وَبِالْمُوالاةِ لِنَبِيِّكَ وَآلِ نَبِيِّكَ عَلَيْهِ وَعَلَيْهِمُ السَّلامُ.
+
+اَللّـهُمَّ الْعَنْ اَوَّلَ ظالِمٍ ظَلَمَ حَقَّ مُحَمَّد وَآلِ مُحَمَّد وَآخِرَ تابِع لَهُ عَلى ذلِكَ، اَللّـهُمَّ الْعَنِ العِصابَةَ الَّتي جاهَدَتِ الْحُسَيْـنَ وَشايَعَتْ وَبايَعَتْ وَتابَعَتْ عَلَى قَتْلِهِ، اَللّـهُمَّ الْعَنْهُمْ جَميعاً.
+
+اَلسَّلامُ عَلَيْكَ يا اَبا عَبْدِ اللهِ وَعَلَى الاَرْواحِ الَّتي حَلَّتْ بِفِنائِكَ، عَلَيْكَ مِنّي سَلامُ اللهِ اَبَداً ما بَقيتُ وَبَقيَ اللَّيْلُ وَالنَّهارُ، وَلا جَعَلَهُ اللهُ آخِرَ الْعَهْدِ مِنّي لِزِيارَتِكُمْ، اَلسَّلامُ عَلَى الْحُسِينِ وَعَلَى عَلِيِّ بْنِ الْحُسِينِ وَعَلَى اَوْلادِ الْحُسِينِ وَعَلَى اَصْحابِ الْحُسَيْـنِ.
+
+اَللّـهُمَّ خُصَّ اَنْتَ اَوَّلَ ظالِمٍ بِاللَّعْنِ مِنّي وَابْدَأْ بِهِ اَوَّلاً ثُمَّ الثّانِيَ وَالثّالِثَ وَالرَّابِعَ، اَللّـهُمَّ الْعَنْ يَزِيدَ خامِساً وَالْعَنْ عُبَيْدَ اللهِ بْنَ زِيَاد وَابْنَ مَرْجانَةَ وَعُمَرَ بْنَ سَعْد وَشِمْراً وَآلَ اَبِي سُفْيانَ وَآلَ زياد وَآلَ مَرْوانَ اِلى يَوْمِ الْقِيامَةِ.
+
+اَللّـهُمَّ لَكَ الْحَمْدُ حَمْدَ الشّاكِرينَ لَكَ عَلى مُصابِهِمْ، اَلْحُمْدُ للهِ عَلى عَظِيمِ رَزِيَّتي، اَللّـهُمَّ ارْزُقْني شَفاعَةَ الْحُسِينِ يَوْمَ الْوُرُودِ، وَثَبِّتْ لي قَدَمَ صِدْق عِنْدَكَ مَعَ الْحُسِينِ وَاَصْحابِ الْحُسِينِ الَّذِينَ بَذَلُوا مُهَجَهُمْ دُونَ الْحُسِينِ عَلَيْهِ السَّلامُ.`;
+
+    const ROLES = {
+        NORMAL: "عضو عادي",
+        MID: "عضوية متوسطة",
+        PREMIUM: "عضوية مميزة",
+        ADMIN: "مشرف كامل"
+    };
+
+    function isUserBanned(username, serverId) {
+        if (!username) return false;
+        return localStorage.getItem("banned_" + serverId + "_" + username) === "true";
+    }
+
+    function getUserRole(username, serverId) {
+        return localStorage.getItem("role_" + serverId + "_" + username) || ROLES.NORMAL;
+    }
+
+    function canCreateServer(username, serverId) {
+        const role = getUserRole(username, serverId);
+        return (role === ROLES.MID || role === ROLES.PREMIUM || role === ROLES.ADMIN);
+    }
+
+    function loadServerList() {
+        const serverSelector = document.getElementById('server-selector');
+        if (!serverSelector) return;
+        
+        let servers = JSON.parse(localStorage.getItem("servers_list") || '["server_HMH_313"]');
+        serverSelector.innerHTML = '';
+
+        servers.forEach(srvId => {
+            let opt = document.createElement('option');
+            opt.value = srvId;
+            opt.innerText = srvId.replace("server_", "سيرفر: ");
+            if (srvId === currentServerId) opt.selected = true;
+            serverSelector.appendChild(opt);
+        });
+
+        const displayEl = document.getElementById('current-server-display');
+        if (displayEl) displayEl.innerText = currentServerId;
+    }
+
+    function addServerToList(newServerId) {
+        let servers = JSON.parse(localStorage.getItem("servers_list") || '["server_HMH_313"]');
+        if (!servers.includes(newServerId)) {
+            servers.push(newServerId);
+            localStorage.setItem("servers_list", JSON.stringify(servers));
+        }
+        loadServerList();
+    }
+
+    function loadLeaderboard() {
+        const scoresKey = "scores_" + currentServerId;
+        let serverScores = JSON.parse(localStorage.getItem(scoresKey) || "{}");
+        const tbody = document.getElementById('leaderboard-body');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        for (let user in serverScores) {
+            const penaltiesKey = "penalties_" + currentServerId + "_" + user;
+            const penalties = localStorage.getItem(penaltiesKey) || "0";
+            const role = getUserRole(user, currentServerId);
+            
+            let badgeClass = "";
+            let roleText = role;
+            if (role === ROLES.ADMIN) {
+                badgeClass = "badge";
+                roleText = "👑 مشرف كامل";
+            } else if (role === ROLES.PREMIUM) {
+                badgeClass = "badge";
+                roleText = "⭐ عضوية مميزة";
+            } else if (role === ROLES.MID) {
+                roleText = "🔷 عضوية متوسطة";
+            }
+
+            const row = `<tr>
+                <td>${user}</td>
+                <td>${serverScores[user]}</td>
+                <td>${penalties}</td>
+                <td><span class="${badgeClass}">${roleText}</span></td>
+            </tr>`;
+            tbody.innerHTML += row;
+        }
+    }
+
+    function switchServerTo(newServerId, alertMsg) {
+        if (isUserBanned(currentUser, newServerId)) {
+            alert("محظور من الانضمام لهذا السيرفر.");
+            return;
+        }
+
+        currentServerId = newServerId;
+        addServerToList(currentServerId);
+        localStorage.setItem("current_server", currentServerId);
+        
+        const savedUser = localStorage.getItem("ziyarat_username_" + currentServerId);
+        const nameInputEl = document.getElementById('username');
+        const startBtn = document.getElementById('start-btn');
+        
+        if (savedUser && !isUserBanned(savedUser, currentServerId)) {
+            currentUser = savedUser;
+            if(nameInputEl) {
+                nameInputEl.value = currentUser;
+                nameInputEl.readOnly = true;
+                nameInputEl.style.backgroundColor = "#eee";
+            }
+            if(startBtn) {
+                startBtn.innerText = "تم تثبيت الاسم";
+                startBtn.disabled = true;
+            }
+            const ziyaratSec = document.getElementById('ziyarat-section');
+            if(ziyaratSec) ziyaratSec.style.display = 'block';
+        } else {
+            currentUser = "";
+            if(nameInputEl) {
+                nameInputEl.value = "";
+                nameInputEl.readOnly = false;
+                nameInputEl.style.backgroundColor = "#fff";
+            }
+            if(startBtn) {
+                startBtn.innerText = "تسجيل الدخول وبدء الزيارة";
+                startBtn.disabled = false;
+            }
+            const ziyaratSec = document.getElementById('ziyarat-section');
+            if(ziyaratSec) ziyaratSec.style.display = 'none';
+        }
+
+        loadLeaderboard();
+        loadUserSuggestions();
+        renderAdminSuggestions();
+        updateCreateServerButtonState();
+        
+        const displayEl = document.getElementById('current-server-display');
+        if (displayEl) displayEl.innerText = currentServerId;
+        
+        const serverSelector = document.getElementById('server-selector');
+        if(serverSelector) serverSelector.value = currentServerId;
+
+        if (alertMsg) alert(alertMsg);
+    }
+
+    function switchServerFromDropdown() {
+        const serverSelector = document.getElementById('server-selector');
+        if (!serverSelector) return;
+        switchServerTo(serverSelector.value, "تم التبديل إلى " + serverSelector.value);
+    }
+
+    function updateCreateServerButtonState() {
+        const createBtn = document.getElementById('create-server-btn');
+        if (!createBtn) return;
+        
+        const canCreate = !currentUser || canCreateServer(currentUser, currentServerId);
+        
+        if (canCreate) {
+            createBtn.disabled = false;
+            createBtn.style.backgroundColor = "#8e44ad";
+            createBtn.innerText = "إنشاء السيرفر";
+        } else {
+            createBtn.disabled = true;
+            createBtn.style.backgroundColor = "#7f8c8d";
+            createBtn.innerText = "يتطلب عضوية متوسطة فأعلى";
+        }
+    }
+
+    function createNewServer() {
+        const serverNameInput = document.getElementById('new-server-name');
+        if (!serverNameInput) return;
+        const serverName = serverNameInput.value.trim().replace(/\s+/g, "_");
+        
+        if (!serverName) {
+            alert("يرجى إدخال اسم السيرفر.");
+            return;
+        }
+
+        const newServerId = "server_" + serverName;
+        switchServerTo(newServerId, "تم إنشاء السيرفر الجديد والتحويل إليه بنجاح!");
+        serverNameInput.value = "";
+    }
+
+    function joinExistingServer() {
+        const serverCodeInput = document.getElementById('server-code-input');
+        if(!serverCodeInput) return;
+        const serverCode = serverCodeInput.value.trim();
+        if (!serverCode) {
+            alert("يرجى إدخال كود السيرفر للانضمام.");
+            return;
+        }
+        
+        const targetServerId = "server_" + serverCode;
+        if (isUserBanned(currentUser, targetServerId)) {
+            alert("محظور من الانضمام لهذا السيرفر.");
+            return;
+        }
+
+        switchServerTo(targetServerId, "تم الانضمام للسيرفر بنجاح!");
+        serverCodeInput.value = "";
+    }
+
+    function registerUser() {
+        const nameInput = document.getElementById('username');
+        if(!nameInput) return;
+        const nameInputVal = nameInput.value.trim();
+        if (!nameInputVal) {
+            alert("يرجى إدخال الاسم.");
+            return;
+        }
+
+        if (isUserBanned(nameInputVal, currentServerId)) {
+            alert("هذا المستخدم محظور من هذا السيرفر.");
+            return;
+        }
+
+        currentUser = nameInputVal;
+        localStorage.setItem("ziyarat_username_" + currentServerId, currentUser);
+        
+        if (!localStorage.getItem("role_" + currentServerId + "_" + currentUser)) {
+            localStorage.setItem("role_" + currentServerId + "_" + currentUser, ROLES.NORMAL);
+        }
+        
+        nameInput.readOnly = true;
+        nameInput.style.backgroundColor = "#eee";
+        
+        const startBtn = document.getElementById('start-btn');
+        if(startBtn) {
+            startBtn.innerText = "تم تثبيت الاسم";
+            startBtn.disabled = true;
+        }
+
+        const ziyaratSec = document.getElementById('ziyarat-section');
+        if(ziyaratSec) {
+            ziyaratSec.style.display = 'block';
+            window.scrollTo({ top: ziyaratSec.offsetTop, behavior: 'smooth' });
+        }
+        loadLeaderboard();
+        loadUserSuggestions();
+        updateCreateServerButtonState();
+    }
+
+    function recordAttendance() {
+        if (!currentUser) {
+            alert("يرجى تسجيل وتثبيت اسمك أولاً.");
+            return;
+        }
+
+        if (isUserBanned(currentUser, currentServerId)) {
+            alert("محظور.");
+            return;
+        }
+
+        const todayStr = new Date().toISOString().split('T')[0];
+        const attendanceKey = "attend_" + currentServerId + "_" + currentUser + "_" + todayStr;
+
+        if (localStorage.getItem(attendanceKey)) {
+            alert("لقد قمت بتسجيل الحضور اليومي بالفعل.");
+            return;
+        }
+
+        localStorage.setItem(attendanceKey, "true");
+
+        const scoresKey = "scores_" + currentServerId;
+        let serverScores = JSON.parse(localStorage.getItem(scoresKey) || "{}");
+        
+        serverScores[currentUser] = (serverScores[currentUser] || 0) + 1;
+        localStorage.setItem(scoresKey, JSON.stringify(serverScores));
+
+        loadLeaderboard();
+        alert("تم تسجيل حضورك اليومي بنجاح وإضافة نقطة!");
+    }
+
+    // إدارة الاقتراحات والشكاوى: يظهر للعضو فقط ما كتبه، ويظهر للمشرفين الكل
+    function submitSuggestion() {
+        if (!currentUser) {
+            alert("يجب تسجيل الدخول لإرسال اقتراح أو شكوى.");
+            return;
+        }
+        const inputEl = document.getElementById('suggestion-input');
+        if (!inputEl) return;
+        const text = inputEl.value.trim();
+        
+        if (!text) {
+            alert("اكتب الاقتراح أو الشكوى أولاً.");
+            return;
+        }
+
+        let suggestions = JSON.parse(localStorage.getItem("suggestions_" + currentServerId) || "[]");
+        suggestions.push({
+            user: currentUser,
+            text: text,
+            timestamp: new Date().toLocaleString()
+        });
+        localStorage.setItem("suggestions_" + currentServerId, JSON.stringify(suggestions));
+        
+        alert("تم إرسال اقتراحك/شكواك بنجاح.");
+        inputEl.value = "";
+        loadUserSuggestions();
+        renderAdminSuggestions();
+    }
+
+    function loadUserSuggestions() {
+        const displayEl = document.getElementById('user-suggestions-display');
+        if (!displayEl) return;
+
+        if (!currentUser) {
+            displayEl.innerText = "";
+            return;
+        }
+
+        let suggestions = JSON.parse(localStorage.getItem("suggestions_" + currentServerId) || "[]");
+        let userSugs = suggestions.filter(s => s.user === currentUser);
+
+        if (userSugs.length > 0) {
+            displayEl.innerHTML = "<strong>اقتراحاتك/شكواك المرسلة:</strong><br>" + 
+                userSugs.map(s => `• ${s.text} <span style="font-size:0.8rem; color:#888;">(${s.timestamp})</span>`).join("<br>");
+        } else {
+            displayEl.innerText = "لا توجد اقتراحات أو شكاوى مرسلة من قبلك.";
+        }
+    }
+
+    function renderAdminSuggestions() {
+        const listEl = document.getElementById('admin-suggestions-list');
+        if (!listEl) return;
+
+        let suggestions = JSON.parse(localStorage.getItem("suggestions_" + currentServerId) || "[]");
+        
+        if (suggestions.length === 0) {
+            listEl.innerHTML = "<p style='color:#666;'>لا توجد أي اقتراحات أو شكاوى من الأعضاء حالياً.</p>";
+            return;
+        }
+
+        listEl.innerHTML = suggestions.map((s, index) => `
+            <div style="background:#fdfaf6; border-right: 3px solid #800020; padding: 10px; margin-bottom: 10px; border-radius: 4px;">
+                <strong>العضو: ${s.user}</strong> <span style="font-size:0.8rem; color:#666;">(${s.timestamp})</span>
+                <p style="margin: 5px 0 0 0; color:#333;">${s.text}</p>
+            </div>
+        `).join("");
+    }
+
+    function accessAdmin() {
+        const adminCodeInput = document.getElementById('admin-code');
+        if(!adminCodeInput) return;
+        const code = adminCodeInput.value.trim();
+        const adminTools = document.getElementById('admin-tools');
+        if (!adminTools) return;
+
+        if (code === ADMIN_PASS) {
+            adminTools.style.display = 'block';
+            renderAdminSuggestions();
+            alert("تم التحقق بنجاح، تم فتح أدوات المشرف.");
+        } else {
+            alert("كود المشرف غير صحيح.");
+            adminTools.style.display = 'none';
+        }
+    }
+
+    function updateMemberRole() {
+        const targetUserInput = document.getElementById('target-username');
+        const roleSelect = document.getElementById('role-select');
+        if(!targetUserInput || !roleSelect) return;
+
+        const targetUser = targetUserInput.value.trim();
+        const newRole = roleSelect.value;
+
+        if (!targetUser) {
+            alert("يرجى إدخال اسم المشارك.");
+            return;
+        }
+
+        localStorage.setItem("role_" + currentServerId + "_" + targetUser, newRole);
+        alert("تم تحديث رتبة " + targetUser + " إلى: " + newRole);
+        loadLeaderboard();
+        updateCreateServerButtonState();
+    }
+
+    function adjustPointsAccurate(delta) {
+        const targetUserInput = document.getElementById('target-username');
+        if(!targetUserInput) return;
+        const targetUser = targetUserInput.value.trim();
+
+        if (!targetUser) {
+            alert("يرجى إدخال اسم المشارك المستهدف.");
+            return;
+        }
+
+        const scoresKey = "scores_" + currentServerId;
+        let serverScores = JSON.parse(localStorage.getItem(scoresKey) || "{}");
+
+        serverScores[targetUser] = (serverScores[targetUser] || 0) + delta;
+        localStorage.setItem(scoresKey, JSON.stringify(serverScores));
+        
+        loadLeaderboard();
+    }
+
+    function setPointsDirect() {
+        const targetUserInput = document.getElementById('target-username');
+        const pointsInput = document.getElementById('direct-points-input');
+        if(!targetUserInput || !pointsInput) return;
+
+        const targetUser = targetUserInput.value.trim();
+        const newScore = parseInt(pointsInput.value);
+
+        if (!targetUser) {
+            alert("يرجى إدخال اسم المشارك.");
+            return;
+        }
+        if (isNaN(newScore)) {
+            alert("يرجى إدخال رقم صحيح للرصيد.");
+            return;
+        }
+
+        const scoresKey = "scores_" + currentServerId;
+        let serverScores = JSON.parse(localStorage.getItem(scoresKey) || "{}");
+
+        serverScores[targetUser] = newScore;
+        localStorage.setItem(scoresKey, JSON.stringify(serverScores));
+        
+        loadLeaderboard();
+        pointsInput.value = "";
+    }
+
+    function banUser() {
+        const targetUserInput = document.getElementById('target-username');
+        if(!targetUserInput) return;
+        const targetUser = targetUserInput.value.trim();
+        if (!targetUser) {
+            alert("يرجى إدخال اسم المشارك المستهدف للحظر.");
+            return;
+        }
+
+        const banKey = "banned_" + currentServerId + "_" + targetUser;
+        localStorage.setItem(banKey, "true");
+
+        const scoresKey = "scores_" + currentServerId;
+        let serverScores = JSON.parse(localStorage.getItem(scoresKey) || "{}");
+        delete serverScores[targetUser];
+        localStorage.setItem(scoresKey, JSON.stringify(serverScores));
+
+        localStorage.removeItem("role_" + currentServerId + "_" + targetUser);
+        localStorage.removeItem("penalties_" + currentServerId + "_" + targetUser);
+
+        loadLeaderboard();
+        alert("تم حظر " + targetUser + " نهائياً من هذا السيرفر.");
+
+        if (currentUser === targetUser) {
+            location.reload();
+        }
+    }
+
+    function initApp() {
+        const ziyaratTextEl = document.getElementById('ziyarat-text');
+        if(ziyaratTextEl) ziyaratTextEl.innerText = fullZiyaratText;
+
+        addServerToList(currentServerId);
+        loadServerList();
+
+        const savedServer = localStorage.getItem("current_server");
+        if (savedServer) {
+            currentServerId = savedServer;
+        }
+
+        if (isUserBanned(currentUser, currentServerId)) {
+            alert("تم حظرك من هذا السيرفر.");
+            currentUser = "";
+        }
+
+        const savedUser = localStorage.getItem("ziyarat_username_" + currentServerId);
+        const nameInputEl = document.getElementById('username');
+        const startBtn = document.getElementById('start-btn');
+
+        if (savedUser && !isUserBanned(savedUser, currentServerId)) {
+            currentUser = savedUser;
+            if(nameInputEl) {
+                nameInputEl.value = currentUser;
+                nameInputEl.readOnly = true;
+                nameInputEl.style.backgroundColor = "#eee";
+            }
+            if(startBtn) {
+                startBtn.innerText = "تم تثبيت الاسم";
+                startBtn.disabled = true;
+            }
+            const ziyaratSec = document.getElementById('ziyarat-section');
+            if(ziyaratSec) ziyaratSec.style.display = 'block';
+        }
+        
+        loadLeaderboard();
+        loadUserSuggestions();
+        renderAdminSuggestions();
+        updateCreateServerButtonState();
+        
+        const serverSelector = document.getElementById('server-selector');
+        if(serverSelector) serverSelector.value = currentServerId;
+    }
+
+    window.onload = initApp;
+</script>
+
+</body>
+</html>
